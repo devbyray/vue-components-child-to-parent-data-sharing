@@ -1,38 +1,60 @@
 <template>
   <div id="app">
-    <counterValue :value="count"></counterValue>
-    <button v-on:click="increment">increment</button>
-    <button v-on:click="decrement">decrement</button>
+    <p>
+      <em>Counter: </em> <counterValue :value="count"></counterValue>
+    </p>
+    <p>
+      <em>Clicks: </em> <counterValue :value="notificationList.length"></counterValue>
+    </p>
+    <buttons 
+      :count="count" 
+      v-on:increment-count="incrementCount"
+      v-on:decrement-count="decrementCount"
+      v-on:button-notify="notify">
+    </buttons>
+    <notification :notificationList="notificationList"></notification>
   </div>
 </template>
 
 <script>
 import counterValue from "./Counter";
+import notification from "./Notification";
+import buttons from "./Buttons";
 
 export default {
   name: "App",
   components: {
-    counterValue
+    counterValue,
+    notification,
+    buttons
   },
   // state
   data() {
     return {
-      count: 2
+      count: 2,
+      notificationList: []
     };
   },
-  // actions
   methods: {
-    increment() {
+    incrementCount() {
       this.count++;
     },
-    decrement() {
+    decrementCount() {
       this.count--;
+    },
+    notify() {
+      this.notificationList.push({
+        date: new Date()
+      });
     }
   }
 };
 </script>
 
 <style>
+body {
+  background-color: yellow;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
